@@ -1,21 +1,21 @@
    #include "libraries.h"
    
-   pair<int, vector<string>> best_combinations(const vector<string>& cards)
-{
+pair<int, vector<string>> best_combinations(const vector<string>& cards) {
     multimap<int, vector<string>> best_combo;
     int best_score = 0;
 
-    vector<int> indices(cards.size());
-    iota(indices.begin(), indices.end(), 0);
+    vector<int> combination(cards.size(), 0);
+    fill(combination.begin(), combination.begin() + 5, 1);
+
     do {
         vector<string> hand;
-        for (size_t i = 0; i < 5; ++i)
-        {
-            hand.push_back(cards[indices[i]]);
+        for (size_t i = 0; i < combination.size(); ++i) {
+            if (combination[i]) {
+                hand.push_back(cards[i]);
+            }
         }
 
-        if (is_royal_flush(hand))
-        {
+        if (is_royal_flush(hand)) {
             best_score = 10;
             best_combo.insert({best_score, hand});
             break;
@@ -30,7 +30,7 @@
         }
         if (is_full_house(hand) && best_score <= 7) {
             best_score = 7;
-            best_combo.insert({best_score, hand}); 
+            best_combo.insert({best_score, hand});
         }
         if (is_flush(hand) && best_score <= 6) {
             best_score = 6;
@@ -53,7 +53,7 @@
             best_combo.insert({best_score, hand});
         }
 
-    } while (next_permutation(indices.begin(), indices.end()));
+    } while (prev_permutation(combination.begin(), combination.end()));
 
     if (best_combo.empty())
     {

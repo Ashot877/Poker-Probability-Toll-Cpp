@@ -1,8 +1,5 @@
 #include "libraries.h"
 
-#include "libraries.h"
-#include <limits>
-
 int main() {
 
     vector<string> deck = create_deck();
@@ -145,12 +142,27 @@ int main() {
     }
 
     int count = 0;
+    int m = 10000;
+    auto start = chrono::high_resolution_clock::now();
+    // for (int i = 0; i < m; ++i)
+    // {
+    //     cout << "end: " << i;
+    //     count += m_carlo(first_card, second_card, players_count, game_round, community_cards, deck);
+    // }
+    vector<std::future<int>> futures;
 
-    for (int i = 0; i < 2; ++i) {
-        cout << i << "\n";
-        count += m_carlo(first_card, second_card, players_count, game_round, community_cards, deck);
+    for (int i = 0; i < m; ++i)
+    {
+        futures.push_back(std::async(std::launch::async, m_carlo, first_card, second_card, players_count, game_round, community_cards, deck));
     }
 
-    cout << "Average result: " << static_cast<double>(count) / 1.0 << endl;
+    for (auto& f : futures)
+    {
+        count += f.get();
+    }
+    auto end = chrono::high_resolution_clock::now();
+    cout << "Average result: " << static_cast<double>(count) / m << endl;
+    chrono::duration<double> elapsed = end - start;
+    cout << "time: " << elapsed.count() << " seconds" << endl;
     return 0;
 }

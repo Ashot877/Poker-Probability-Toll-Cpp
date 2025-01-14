@@ -10,7 +10,9 @@
 #include <random>
 #include <unordered_map>
 #include <map>
+#include <chrono>
 #include <set>
+#include <future>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ int compare_hands_and_return_winner(const pair<int, vector<string>>& my_hand, co
 int check_all_opponents(const vector<pair<int, vector<string>>>& best_others_comb, const pair<int, vector<string>>& my_best_comb);
 int m_carlo (const string& card1, const string& card2,
             int players_count, int game_round,
-            vector<string>& community_cards, vector<string> deck);
+            vector<string> community_cards, vector<string> deck);
 bool is_royal_flush(const vector<string>& hand);
 bool is_straight_flush(const vector<string>& hand);
 bool is_care(const vector<string>& hand);

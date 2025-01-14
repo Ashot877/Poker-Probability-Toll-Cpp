@@ -2,7 +2,7 @@
 
 int m_carlo (const string& card1, const string& card2,
             int players_count, int game_round,
-            vector<string>& community_cards, vector<string> deck)
+            vector<string> community_cards, vector<string> deck)
 {
     vector<vector<string>> players(players_count);
 
@@ -86,8 +86,6 @@ int m_carlo (const string& card1, const string& card2,
         best_others_comb.push_back(best_combinations(all_cards));
     }
 
-     cout << "J\n";
-     
     vector<string> my_comb = {card1, card2};
     my_comb.insert(my_comb.end(), community_cards.begin(), community_cards.end());
 
